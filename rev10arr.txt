@@ -1,4 +1,4 @@
-Q. Reverse an array of ten 32 bit numbers in the memory
+Q. Reverse an array of ten 32 bit numbers in the memory.
 
 .s code
 
