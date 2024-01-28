@@ -1,0 +1,26 @@
+Q. To transfer a 32 bit number from one location in the data memory to another
+
+.s code
+
+    AREA RESET, DATA, READONLY
+    EXPORT __Vectors
+__Vectors
+    DCD 0X10000000
+    DCD Reset_Handler
+    ALIGN 
+    AREA mycode, DATA, READONLY
+ENTRY 
+    EXPORT Reset_Handler
+Reset_Handler
+    LDR R0, =SRC
+    LDR R1, =DST
+    LDR R3, [R0]
+    STR R3, [R1]
+STOP
+    B STOP
+    AREA MYDATA1, DATA, READONLY
+SRC 10
+    AREA MYDATA2, DATA, READWRITE
+DST 0
+    END
+
