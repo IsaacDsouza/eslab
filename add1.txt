@@ -1,0 +1,5 @@
+Q. add two immediate values in the registers and store the result in third register.
+
+.s code
+
+
