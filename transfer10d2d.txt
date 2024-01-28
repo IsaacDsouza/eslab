@@ -1,0 +1,29 @@
+Q. Transfer ten 32 bit numbers from data memory to data memory, i.e., overlapping
+
+.s code
+
+    AREA RESET, DATA, READONLY
+    EXPORT __Vectors
+__Vectors
+    DCD 0X10000000
+    DCD Reset_Handler
+    ALIGN
+    AREA mycode, CODE, READONLY
+ENTRY 
+    EXPORT Reset_Handler
+Reset_Handler
+    LDR R0, =SRC
+    LDR R1, =DST
+    MOV R2, #10
+LOOP 
+    LDR R3, [R0], #4
+    STR R3, [R1], #4
+    SUBS R2, #1
+    BNE LOOP
+STOP
+    B STOP
+    AREA MYDATA1, DATA, READONLY
+SRC DCD 2,4,5,7,8,9,3,6,1,12
+    AREA MYDATA2, DATA, READONLY
+DST DCD 0
+    END
