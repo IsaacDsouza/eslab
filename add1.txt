@@ -2,4 +2,6 @@ Q. add two immediate values in the registers and store the result in third regis
 
 .s code
 
+    AREA
+
 
