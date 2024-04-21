@@ -1,0 +1,26 @@
+    AREA, RESET, DATA, READONLY
+    EXPORT __Vectors
+__Vectors
+    DCD 0x40001000
+    DCD Reset_Handler
+    ALIGN
+    AREA mycode, CODE, READONLY
+ENTRY
+    EXPORT Reset_Handler
+Reset_Handler
+    MOV R2, #0x05 ;index
+    MOV R4, #0 ;key
+    MOV R6, #5 ;counter
+    MOV R5, #0xFFFFFFFF ;key-not-found
+    LDR R0, =LIST
+
+UP LDR R3, [R0, R4]
+    CMP R2, R3
+    MOVEQ R5, R1 ;key index
+    BEQ finish
+    ADD R4, #04
+    ADD R1, #1
+    SUBS R6, #01
+    BNE UP
+finish
+
