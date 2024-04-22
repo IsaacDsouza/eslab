@@ -1,0 +1,40 @@
+    AREA, RESET, DATA, READONLY
+    EXPORT __Vectors
+__Vectors
+    DCD 0x40001000
+    DCD Reset_Handler
+    ALIGN
+    AREA mycode, CODE, READONLY
+ENTRY
+    EXPORT Reset_Handler
+Reset_Handler
+    MOV R0, #0
+    LDRH R1, NUM1
+    LDRH R2, NUM1
+    LDRH R3, NUM2
+    LDR R4, =DST
+    MUL R5, R2, R3
+    CMP R2, R3
+    BNE LOOP
+
+LOOP
+    CMP R2, R3
+    BHI B1
+    BLS B2
+
+B2
+    SUB R3, R2
+
+CM
+    CMP R2, R3
+    BNE LOOP
+    CMP R2, R5
+    BLS DIVLOOP
+
+DIVLOOP
+    SUB R5, R2
+    ADD R0, #1
+    CMP R2, R5
+    BLS DIVLOOP
+    STR R0, [R4]
+    
