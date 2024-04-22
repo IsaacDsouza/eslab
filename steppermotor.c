@@ -28,7 +28,7 @@ void clock_wise(void){
     var1 = 0x00000001;
     for(i=0; i<3; i++){
         LPC_GPIO2->FIOCLR=0x0000000F;
-        LPC_GPI02->FIOSET=var1;
+        LPC_GPIO2->FIOSET=var1;
         var1=var1<<1;
         for(k=0; k<15000; k++);
     }
