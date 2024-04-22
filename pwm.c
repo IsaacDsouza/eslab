@@ -4,7 +4,7 @@ void pwm_init(void);
 void PWM1_IRQHandler(void);
 
 unsigned long int i;
-unsigned char flag, flag;
+unsigned char flag, flag1;
 
 int main(void){
     pwm_init();
