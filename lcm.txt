@@ -1,40 +1,38 @@
-    AREA, RESET, DATA, READONLY
-    EXPORT __Vectors
-__Vectors
-    DCD 0x40001000
-    DCD Reset_Handler
-    ALIGN
-    AREA mycode, CODE, READONLY
+AREA mycode, CODE, READONLY
 ENTRY
     EXPORT Reset_Handler
 Reset_Handler
-    MOV R0, #0
-    LDRH R1, NUM1
-    LDRH R2, NUM1
-    LDRH R3, NUM2
-    LDR R4, =DST
-    MUL R5, R2, R3
-    CMP R2, R3
-    BNE LOOP
+    ; Initialize registers
+    MOV R0, #0          ; Result register
+    LDR R1, =NUM1       ; Load address of NUM1
+    LDR R2, [R1]        ; Load NUM1 into R2
+    LDR R1, =NUM2       ; Load address of NUM2
+    LDR R3, [R1]        ; Load NUM2 into R3
 
-LOOP
-    CMP R2, R3
-    BHI B1
-    BLS B2
+    ; Calculate GCD
+GCD_LOOP
+    CMP R2, R3          ; Compare R2 and R3
+    BEQ GCD_DONE        ; If equal, GCD found
+    BHI R2_GREATER      ; If R2 > R3, branch to R2_GREATER
+    SUB R3, R3, R2      ; Subtract R2 from R3
+    B GCD_LOOP          ; Loop back
+R2_GREATER
+    SUB R2, R2, R3      ; Subtract R3 from R2
+    B GCD_LOOP          ; Loop back
 
-B2
-    SUB R3, R2
+GCD_DONE
+    ; Calculate LCM
+    MUL R0, R2, R3      ; Multiply R2 and R3
+    MOV R1, R0          ; Copy result to R1
+    LDR R2, =DST        ; Load address of DST
+    SDIV R0, R1, R0     ; Divide R1 by R0 (R1 = R1 / R0)
+    STR R1, [R2]        ; Store the result in DST
 
-CM
-    CMP R2, R3
-    BNE LOOP
-    CMP R2, R5
-    BLS DIVLOOP
+    ; Infinite loop
+    B .
 
-DIVLOOP
-    SUB R5, R2
-    ADD R0, #1
-    CMP R2, R5
-    BLS DIVLOOP
-    STR R0, [R4]
-    
+NUM1    DCD 12          ; First number
+NUM2    DCD 15          ; Second number
+DST     DCD 0           ; Destination to store LCM
+
+    END
